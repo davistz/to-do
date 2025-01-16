@@ -12,15 +12,3 @@
     );
   }
 }
-/* index.css ou outro arquivo de estilo */
-@font-face {
-  font-family: "Coolvetica RG";
-  src: url("./assets/fonts/coolvetica_rg.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-/* Usando a fonte no corpo da aplicação */
-body {
-  font-family: "Gabarito", sans-serif;
-}
