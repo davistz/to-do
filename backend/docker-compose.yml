@@ -1,0 +1,30 @@
+services:
+  postgres:
+    container_name: database
+    image: postgres:17
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: taskApi
+    volumes:
+      - postgres:/data/postgres
+    networks:
+      - backend-network
+  api:
+    build:
+      context: .
+    container_name: backend-container
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    networks:
+      - backend-network
+volumes:
+  postgres:
+
+networks:
+  backend-network:
+    driver: bridge

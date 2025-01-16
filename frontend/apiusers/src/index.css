@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .bg-custom-gradient {
+    background: linear-gradient(
+      90deg,
+      rgba(2, 0, 36, 1) 0%,
+      rgba(9, 9, 121, 1) 28%,
+      rgba(2, 90, 108, 1) 100%
+    );
+  }
+}
+/* index.css ou outro arquivo de estilo */
+@font-face {
+  font-family: "Coolvetica RG";
+  src: url("./assets/fonts/coolvetica_rg.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Usando a fonte no corpo da aplicação */
+body {
+  font-family: "Gabarito", sans-serif;
+}
