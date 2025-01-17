@@ -17,8 +17,8 @@ const AllTasks = ({
   const handleFilterSubmit = async () => {
     setNoResultsMessage("");
 
-    if (!filter) {
-      fetchTasks();
+    if (!filter.trim()) {
+      await fetchTasks();
       return;
     }
 

@@ -10,7 +10,6 @@ const useTasks = () => {
   const fetchTasks = async () => {
     try {
       const response = await api.get("");
-
       setTasks(response.data.content || []);
       setFilteredTasks(response.data.content || []);
     } catch (error) {
@@ -18,10 +17,11 @@ const useTasks = () => {
     }
   };
 
-  const handleFormSubmit = async (data) => {
+  const handleFormSubmit = async (data, reset) => {
     try {
       await api.post("", data);
       await fetchTasks();
+      reset();
     } catch (error) {
       console.error("Erro ao adicionar task:", error);
     }

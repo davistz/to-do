@@ -5,11 +5,25 @@ const AddTask = ({ handleFormSubmit }) => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
+
+  const onSubmit = async (data) => {
+    try {
+      await handleFormSubmit(data);
+
+      reset();
+      setTimeout(() => {
+        reset();
+      }, 500);
+    } catch (error) {
+      console.error("Erro ao adicionar task:", error);
+    }
+  };
 
   return (
     <form
-      onSubmit={handleSubmit(handleFormSubmit)}
+      onSubmit={handleSubmit(onSubmit)}
       className="w-full items-center flex gap-4"
     >
       <div className="w-full">
