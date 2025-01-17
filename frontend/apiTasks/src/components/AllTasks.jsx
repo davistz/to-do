@@ -24,10 +24,15 @@ const AllTasks = ({
 
     try {
       let response;
-      if (filterBy === "id") {
-        response = await api.get(`${filter}`);
-      } else if (filterBy === "title") {
-        response = await api.get(`title/${filter}`);
+      switch (filterBy) {
+        case "id":
+          response = await api.get(`${filter}`);
+          break;
+        case "title":
+          response = await api.get(`title/${filter}`);
+          break;
+        default:
+          throw new Error("Opção de filtro inválida");
       }
 
       if (response.data && response.data.content) {
@@ -51,41 +56,35 @@ const AllTasks = ({
 
   return (
     <div className="mt-4 w-full">
-      <div className="flex items-center gap-2 mb-4">
-        <select
-          value={filterBy}
-          onChange={(e) => setFilterBy(e.target.value)}
-          className="bg-[#0000004a] border border-[#000000] rounded-md px-2 py-1"
-        >
-          <option value="id">Filtrar por ID</option>
-          <option value="title">Filtrar por Título</option>
-        </select>
+      <div className="flex items-center justify-between mt-4 mb-4">
+        <h1 className="text-3xl font-bold">Tasks</h1>
+        <div>
+          <select
+            value={filterBy}
+            onChange={(e) => setFilterBy(e.target.value)}
+            className="bg-[#0000004a] border border-[#000000] rounded-md px-2 py-1 mr-2"
+          >
+            <option value="id">Filtrar por ID</option>
+            <option value="title">Filtrar por Título</option>
+          </select>
 
-        <input
-          type="text"
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-          placeholder={`Digite o ${filterBy}...`}
-          className="bg-[#0000004a] border border-[#000000] rounded-md px-2 py-1"
-        />
+          <input
+            type="text"
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            placeholder={`Digite o ${
+              filterBy === "title" ? "título" : filterBy
+            }...`}
+            className="bg-[#0000004a] border border-[#000000] rounded-md px-2 py-1 mr-2"
+          />
 
-        <button
-          onClick={handleFilterSubmit}
-          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-500"
-        >
-          Filtrar
-        </button>
-
-        <button
-          onClick={() => {
-            setFilter("");
-            setNoResultsMessage("");
-            fetchTasks();
-          }}
-          className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-500"
-        >
-          Limpar
-        </button>
+          <button
+            onClick={handleFilterSubmit}
+            className="w-[100px] h-[34px] bg-[#150a42] text-white rounded-md hover:bg-[#321e83] transition"
+          >
+            Filtrar
+          </button>
+        </div>
       </div>
 
       {noResultsMessage && (

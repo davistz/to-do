@@ -14,7 +14,7 @@ services:
       - backend-network
   api:
     build:
-      context: .
+      context: ./backend
     container_name: backend-container
     depends_on:
       - postgres
@@ -22,6 +22,15 @@ services:
       - "8080:8080"
     networks:
       - backend-network
+  frontend:
+    build:
+      context: ./frontend/apiTasks
+    depends_on:
+      - api
+    networks:
+      - backend-network
+    ports:
+      - "8000:8000"
 volumes:
   postgres:
 

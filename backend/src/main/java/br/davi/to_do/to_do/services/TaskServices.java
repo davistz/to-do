@@ -1,5 +1,10 @@
 package br.davi.to_do.to_do.services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+
 import br.davi.to_do.to_do.models.dto.StatusDto;
 import br.davi.to_do.to_do.models.dto.TaskDto;
 import br.davi.to_do.to_do.models.entity.Task;
@@ -7,10 +12,6 @@ import br.davi.to_do.to_do.models.enums.TaskStatus;
 import br.davi.to_do.to_do.repositorys.TaskRepository;
 import br.davi.to_do.to_do.services.exception.ApiException;
 import jakarta.transaction.Transactional;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
 
 
 @Service
@@ -23,8 +24,13 @@ public class TaskServices {
 
     @Transactional
     public TaskDto addTask(TaskDto taskDto) {
+
         if (taskDto.getTitle().isEmpty()) {
             throw new ApiException("bad_request", "Title is empty", HttpStatus.BAD_REQUEST.value());
+        }
+
+        if(!repository.findByTitle(taskDto.getTitle()).isEmpty()){
+            throw new ApiException("conflict", "The task already exists", HttpStatus.CONFLICT.value());
         }
 
         Task task = new Task();
@@ -43,8 +49,14 @@ public class TaskServices {
         return getTaskDto(task);
     }
     @Transactional
-    public TaskDto findTaskByTitle(String title){
-        Task task = repository.findByTitle(title).orElseThrow(() -> new ApiException("not_found", "Title not found", HttpStatus.BAD_REQUEST.value()));
+    public TaskDto findTaskByTitle(String title) {
+        Task task = repository
+                .findFirstByTitleContainingIgnoreCase(title)
+                .orElseThrow(() -> new ApiException("not_found", 
+                        "Title not found", 
+                        HttpStatus.BAD_REQUEST.value()));
+
+      
         return getTaskDto(task);
     }
     @Transactional

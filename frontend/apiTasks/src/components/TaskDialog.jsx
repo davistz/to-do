@@ -2,17 +2,15 @@ import { useState, useEffect } from "react";
 import useTasks from "./useTasks";
 
 const TaskDialog = ({ task, isOpen, onClose }) => {
-  const { updateTask, fetchTasks } = useTasks(); // Adiciona fetchTasks para atualizar a lista global após salvar
+  const { updateTask, fetchTasks } = useTasks();
   const [editableTask, setEditableTask] = useState(null);
 
-  // Atualiza o estado local editableTask sempre que a task mudar
   useEffect(() => {
     if (task) {
       setEditableTask(task);
     }
   }, [task]);
 
-  // Impede a renderização do componente se o diálogo não estiver aberto ou se a tarefa não for válida
   if (!isOpen || !editableTask) return null;
 
   const handleInputChange = (e) => {
@@ -25,8 +23,8 @@ const TaskDialog = ({ task, isOpen, onClose }) => {
 
   const handleSave = async () => {
     try {
-      await updateTask(editableTask); // Atualiza a tarefa no backend
-      window.location.reload(); // Recarrega a página para refletir as alterações
+      await updateTask(editableTask);
+      window.location.reload();
     } catch (error) {
       console.error("Erro ao salvar a task:", error);
     }
@@ -61,7 +59,7 @@ const TaskDialog = ({ task, isOpen, onClose }) => {
               name="description"
               value={editableTask.description}
               onChange={handleInputChange}
-              className="w-full h-[70px] bg-[#2d2d3d] text-white rounded-md pt-1 text-left"
+              className="w-full p-2 bg-[#2d2d3d] text-white rounded-md pt-1 text-left"
             />
           </div>
 

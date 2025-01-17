@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     port: 8000,
     proxy: {
-      "/users/": "http://localhost:8080",
+      "/tasks/": "http://localhost:8080",
     },
   },
 });
